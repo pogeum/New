@@ -4,6 +4,7 @@ import com.webProject.webProject.Store.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,5 +33,14 @@ public class MenuService {
         }
         return storeMenu;
     }
+
+    public Menu setDefaultMenu(Store store) {
+        Menu menu = new Menu();
+        menu.setMenuName("메뉴");
+        menu.setPrice(000);
+        menu.setStore(store);
+        return this.menuRepository.save(menu);
+    }
+
 
 }

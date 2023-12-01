@@ -209,4 +209,44 @@ public class StoreController {
     }
 
 
+//    ===========================================================================================================
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/updatemenu")
+    public String updatemenu(Integer storeid, Model model) {
+        Store store = storeService.findstoreById(storeid);
+        if (store.getMenuList().size()==0) {
+            menuService.setDefaultMenu(store);
+        }
+        model.addAttribute("store",store);
+        model.addAttribute("menuList",store.getMenuList());
+        return "menu_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/updatemenu")
+    public String updatemenu(Long postid, String title, String content, Principal principal) {
+        Post post = postService.findPost(postid);
+        if (title == null || title.isEmpty()) {
+
+            post.setTitle("제목없음");
+        }else {
+            post.setTitle(title);
+        }
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        post.setContent(content);
+        postService.setPost(post,siteUser);
+        return "redirect:/post/detail/" + postid;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/addmenu")
+    public String addmenu(Principal principal, Integer storeid) {
+        Menu menu = menuService.setDefaultMenu(storeService.findstoreById(storeid));
+        return "redirect:/store/updatemenu";
+    }
+
+
+
+
 }

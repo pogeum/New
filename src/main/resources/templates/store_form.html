@@ -69,6 +69,11 @@
                             <div class="mb-3">
                                 <div id="parah">
                                     <a class="btn btn-sm btn-light" th:href="@{|/store/addmenu?process=${process}|}">메뉴등록하기</a>
+                                    <div>
+                                        <ul>
+                                            <li th:each="answer : ${question.answerList}" th:text="${answer.content}"></li>
+                                        </ul>
+                                    </div>
                                     <ul th:unless="${store.menuList == null}">
                                         <li th:each="menu : ${store.menuList}">
                                             <ul>
